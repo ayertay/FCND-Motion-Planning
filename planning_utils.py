@@ -2,7 +2,8 @@ from enum import Enum
 from queue import PriorityQueue
 import numpy as np
 from bresenham import bresenham
-import matplotlib.pyplot as plt
+
+# import matplotlib.pyplot as plt
 
 
 def create_grid(data, drone_altitude, safety_distance):
