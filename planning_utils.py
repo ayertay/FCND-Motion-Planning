@@ -263,22 +263,22 @@ def collinearity_check(p1, p2, p3, epsilon=1e-1):
     return abs(det) < epsilon
 
 
-def plot_chart_route(grid, path, start_ne, goal_ne, pruned):
+# def plot_chart_route(grid, path, start_ne, goal_ne, pruned):
 
-    fig = plt.figure()
-    plt.imshow(grid, origin="lower", cmap="Greys")
+#     fig = plt.figure()
+#     plt.imshow(grid, origin="lower", cmap="Greys")
 
-    for i in range(len(path) - 1):
-        p1 = path[i]
-        p2 = path[i + 1]
-        plt.plot([p1[1], p2[1]], [p1[0], p2[0]], "r-")
+#     for i in range(len(path) - 1):
+#         p1 = path[i]
+#         p2 = path[i + 1]
+#         plt.plot([p1[1], p2[1]], [p1[0], p2[0]], "r-")
 
-    plt.plot(start_ne[1], start_ne[0], "gx", markersize=15)
-    plt.plot(goal_ne[1], goal_ne[0], "gx", markersize=15)
+#     plt.plot(start_ne[1], start_ne[0], "gx", markersize=15)
+#     plt.plot(goal_ne[1], goal_ne[0], "gx", markersize=15)
 
-    plt.xlabel("EAST", fontsize=20)
-    plt.ylabel("NORTH", fontsize=20)
-    if pruned:
-        fig.savefig("grid_route_pruned.png", bbox_inches="tight")
-    else:
-        fig.savefig("grid_route.png", bbox_inches="tight")
+#     plt.xlabel("EAST", fontsize=20)
+#     plt.ylabel("NORTH", fontsize=20)
+#     if pruned:
+#         fig.savefig("grid_route_pruned.png", bbox_inches="tight")
+#     else:
+#         fig.savefig("grid_route.png", bbox_inches="tight")

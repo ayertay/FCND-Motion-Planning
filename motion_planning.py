@@ -11,7 +11,6 @@ from planning_utils import (
     bre,
     heuristic,
     create_grid,
-    plot_chart_route,
     prune_path_grid,
 )
 from udacidrone import Drone
@@ -195,8 +194,8 @@ class MotionPlanning(Drone):
         # pruned_path = prune_path_grid(grid, path)
 
         print("Pruned path length: {}".format(len(path)))
-        plot_chart_route(grid, path, grid_start, grid_goal, True)
-        print("Plotted chart of pruned path")
+        # plot_chart_route(grid, path, grid_start, grid_goal, True) this one is causing Qt xcb problem
+        # print("Plotted chart of pruned path")
         # Convert path to waypoints
         waypoints = [
             [p[0] + north_offset, p[1] + east_offset, TARGET_ALTITUDE, 0]
