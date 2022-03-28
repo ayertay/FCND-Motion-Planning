@@ -207,45 +207,18 @@ def bre(grid, path):
     return pruned_path
 
 
-def prune_path_grid(path, grid):
+def prune_path(path):
 
     pruned_path = [p for p in path]
 
-    # Add points as rows in a matrix
     i = 0
     while i < len(pruned_path) - 2:
-        p1 = pruned_path[i]
-        p2 = pruned_path[i + 1]
-        p3 = pruned_path[i + 2]
-
-        # If the 3 points are in a line remove
-        # the 2nd point.
-        # The 3rd point now becomes the 2nd point
-        # and the check is redone with a new third point
-        # on the next iteration.
-        cells = list(bresenham(p1[0], p1[1], p3[0], p3[1]))
-
-        # check if there is a viable path between 1 and 3
-        no_obstacles = True
-        for c in cells:
-            x = c[0]
-            y = c[1]
-            if grid[x, y] == 1:
-                no_obstacles = False
+        p1 = point(pruned_path[i])
+        p2 = point(pruned_path[i + 1])
+        p3 = point(pruned_path[i + 2])
 
         if collinearity_check(p1, p2, p3):
-            # Something subtle here but we can mutate
-            # `pruned_path` freely because the length
-            # of the list is checked on every iteration.
             pruned_path.remove(pruned_path[i + 1])
-        # eliminate paths where cells are slightly outside of the path
-        elif p2 in cells:
-            pruned_path.remove(pruned_path[i + 1])
-
-        elif no_obstacles is True:
-            pruned_path.remove(pruned_path[i + 1])
-
-        # if no pruning, go to next set
         else:
             i += 1
 
@@ -253,13 +226,13 @@ def prune_path_grid(path, grid):
 
 
 def point(p):
-    return np.array([p[0], p[1], 1.0])
+    return np.array([p[0], p[1], 1.0]).reshape(1, -1)
 
 
-def collinearity_check(p1, p2, p3, epsilon=1e-1):
+def collinearity_check(p1, p2, p3, epsilon=1e-2):
 
-    mat = np.vstack((point(p1), point(p2), point(p3)))
-    # m = np.concatenate((p1, p2, p3), 0)
+    # mat = np.vstack((point(p1), point(p2), point(p3)))
+    mat = np.concatenate((p1, p2, p3), 0)
     det = np.linalg.det(mat)
     return abs(det) < epsilon
 

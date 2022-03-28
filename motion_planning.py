@@ -11,7 +11,7 @@ from planning_utils import (
     bre,
     heuristic,
     create_grid,
-    prune_path_grid,
+    prune_path,
 )
 from udacidrone import Drone
 from udacidrone.connection import MavlinkConnection
@@ -129,7 +129,7 @@ class MotionPlanning(Drone):
         self.flight_state = States.PLANNING
         print("Searching for a path ...")
         TARGET_ALTITUDE = 5
-        SAFETY_DISTANCE = 5
+        SAFETY_DISTANCE = 7
 
         self.target_position[2] = TARGET_ALTITUDE
 
@@ -172,8 +172,8 @@ class MotionPlanning(Drone):
 
         # Set goal as some arbitrary position on the grid
         grid_goal = (
-            int(np.ceil(-north_offset + 110)),
-            int(np.ceil(-east_offset - 50)),
+            int(np.ceil(-north_offset - 50)),
+            int(np.ceil(-east_offset + 250)),
         )
         # TODO: adapt to set goal as latitude / longitude position and convert
         print("Goal_north = {0}, goal_east = {1}".format(grid_goal[0], grid_goal[1]))
@@ -190,12 +190,10 @@ class MotionPlanning(Drone):
         print("Plotted chart of initial path")
         print("Original length of path: {}".format(len(path)))
 
-        pruned_path = bre(grid, path)
-        # pruned_path = prune_path_grid(grid, path)
+        # pruned_path = bre(grid, path)
+        pruned_path = prune_path(path)
 
-        print("Pruned path length: {}".format(len(path)))
-        # plot_chart_route(grid, path, grid_start, grid_goal, True) this one is causing Qt xcb problem
-        # print("Plotted chart of pruned path")
+        print("Pruned path length: {}".format(len(pruned_path)))
         # Convert path to waypoints
         waypoints = [
             [p[0] + north_offset, p[1] + east_offset, TARGET_ALTITUDE, 0]
